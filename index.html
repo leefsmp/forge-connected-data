@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<link type='image/x-icon'rel='shortcut icon' href='./img/favicon.png'/>
+		<meta charset="utf-8"/>
+
+		<title>Forge - Connected Data</title>
+
+		<meta name="description" content="Autodesk Forge"/>
+
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"/>
+
+		<link rel="stylesheet" href="css/reveal.css"/>
+		<link rel="stylesheet" href="css/theme/league.css" id="theme"/>
+		<link rel="stylesheet" href="lib/css/zenburn.css"/>
+		<link rel="stylesheet" href="css/custom.css"/>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h2 style="top: 50px;">Select Theme</h2>
+					<ul>
+						<li>
+							<a href="#" onclick="setTheme('black')">Black</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('white')">White</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('league')">League</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('sky')">Sky</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('beige')">Beige</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('simple')">Simple</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('serif')">Serif</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('black')">Black</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('blood')">Blood</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('night')">Night</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('moon')">Moon</a>
+						</li>
+						<li>
+							<a href="#" onclick="setTheme('solarized')">Solarized</a>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+
+					<img src="./img/adsk.ico" width="100" height="100"
+						 style="position: absolute; left: 30%; top: 53px"/>
+
+					<img src="./img/forge.png" width="100" height="100"
+						 style="position: absolute; right: 29%; top: 53px"/>
+
+					<h2 style="top: 40px;">VISUAL REPORTS</h2>
+					<h2 style="top: 115px;font-size: 48px;">WITH CONNECTED DATA</h2>
+
+					<iframe src="./slides/connected-data.html" style="width:800px;height:500px;">
+					</iframe>
+
+					<p style="bottom: 0px; position: relative;">
+						<small>
+							<a href="http://adndevblog.typepad.com/cloud_and_mobile/philippe-leefsma.html">
+								Philippe Leefsma
+							</a>
+							<a href="http://twitter.com/F3lipek">
+								@F3lipek
+							</a>
+							<br>
+							Forge Partner Development
+						</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>AGENDA</h2>
+					<ol style="width: 500px;">
+						<li class="fragment"
+							style="margin-bottom: 60px";>
+							<b>Accessing your Design Data</b>
+						</li>
+						<li class="fragment"
+							style="margin-bottom: 60px";>
+							<b>UI Customization & Overrides</b>
+						</li>
+						<li class="fragment"
+							style="margin-bottom: 60px";>
+							<b>Connecting External Data Sources</b>
+						</li>
+					</ol>
+				</section>
+
+				<section>
+					<h2 style="top: 250px;">Part I - ACCESSING DESIGN DATA</h2>
+				</section>
+
+				<section>
+					<iframe src="./slides/structure-props.html" class="iframe-fullscreen">
+					</iframe>
+				</section>
+
+				<section>
+					<section>
+						<h2>VIEWER COMPONENT MODEL</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+{
+  name: 'chassis'          //display name of the component
+  dbId: 53                 //unique id for the component in the model
+  fragIds: [38, 39]        //reference the three.js meshes
+  parent: 37               //dbId of the parent node
+  children: [65, 113, 146] //array of children nodes ids
+}
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>MODEL STRUCTURE (1)</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+var instanceTree = model.getData().instanceTree
+
+var rootId = instanceTree.getRootId()
+
+var rootNode = {
+    dbId: rootId,
+    name: instanceTree.getNodeName(rootId)
+}
+
+buildModelTreeRec(rootNode)
+
+return rootNode
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>MODEL STRUCTURE (2)</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+function buildModelTreeRec (node) {
+
+    instanceTree.enumNodeChildren(node.dbId, function(childId) {
+
+        node.children = node.children || []
+
+        var childNode = {
+            dbId: childId,
+            name: instanceTree.getNodeName(childId)
+        }
+
+        node.children.push(childNode)
+
+        buildModelTreeRec(childNode)
+    })
+}
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>NODE FRAGMENTS</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+var instanceTree = model.getData().instanceTree
+
+var fragIds = []
+
+instanceTree.enumNodeFragments(dbId, function (fragId) {
+
+    fragIds.push(fragId)
+})
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>COMPONENT PROPERTIES</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+
+model.getProperties(dbId, function(result) {
+
+    if (result.properties){
+
+        result.properties.forEach( function (prop) {
+
+            console.log(prop)
+        })
+    }
+}
+					</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<a href="http://calm-inlet-4387.herokuapp.com/" target="_blank">
+						<img src="./img/LMV%20Nav.png">
+					</a>
+				</section>
+
+				<section>
+					<h2 style="top:250px;">Part II - UI CUSTOMIZATION</h2>
+					<h2 style="top:320px;">& OVERRIDES</h2>
+				</section>
+
+				<section>
+					<h2>2D OVERLAYS</h2>
+					<img src="./img/div-logo.jpg" style="height: 400px;">
+				</section>
+
+				<section>
+					<h2>Viewer Panel</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+class CustomPanel extends Autodesk.Viewing.UI.DockingPanel {
+
+ constructor(container, title, options = {}) {
+
+  super(container, panelId, title, options)
+
+  this.container.appendChild(...)
+ }
+
+}
+						</code></pre>
+				</section>
+
+				<section>
+					<iframe src="./slides/visual%20report.html" class="iframe-fullscreen">
+					</iframe>
+				</section>
+
+				<section>
+					<h2 style="top:80px;">FRAGMENT OVERRIDES</h2>
+					<section>
+						<h2 style="top:170px;">Material</h2>
+							<pre><code class="hljs" data-trim contenteditable>
+//current model
+var model = viewer.model
+
+//create custom material
+var material = new THREE.MeshPhongMaterial({
+    color: '#F43BC1'
+	//... other properties
+})
+
+//set material on specific fragId
+model.getFragmentList().setMaterial(
+    fragId, material)
+
+//force viewer to update scene
+viewer.impl.invalidate(true)
+							</code></pre>
+					</section>
+
+					<section>
+						<h2 style="top:170px;">Overlay</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+//access render proxy
+var renderProxy = viewer.impl.getRenderProxy(
+    model, fragId)
+
+//clone geometry
+var meshProxy = new THREE.Mesh(
+    renderProxy.geometry)
+
+meshProxy.matrix.copy(
+    renderProxy.matrixWorld)
+
+//create 3d overlay
+viewer.impl.addOverlay(
+    materialName, meshProxy)
+
+// force update
+viewer.impl.invalidate(true)
+							</code></pre>
+					</section>
+					<section>
+						<h2 style="top:170px;">Transform</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+// access fragment proxy i.e. THREE.Mesh
+var fragProxy = viewer.impl.getFragmentProxy(
+    model, fragId)
+
+fragProxy.getAnimTransform()
+
+fragProxy.position = new THREE.Vector3(x, y, z)
+
+//Not a standard three.js quaternion
+fragProxy.quaternion._x = qx;
+fragProxy.quaternion._y = qy;
+fragProxy.quaternion._z = qz;
+fragProxy.quaternion._w = qw;
+
+fragProxy.updateAnimTransform()
+
+viewer.impl.invalidate(true)
+							</code></pre>
+					</section>
+
+				</section>
+
+				<section>
+					<h2>PLAYING WITH SVG</h2>
+					<section>
+						<a href="http://snapsvg.io" target="_blank">
+							<img src="./img/snap.png" style="height: 400px;">
+						</a>
+					</section>
+					<section>
+						<iframe src="./slides/snap.html" style="width:500px;height:400px;">
+						</iframe>
+					</section>
+				</section>
+
+				<section>
+					<iframe src="./slides/markup.html" class="iframe-fullscreen">
+					</iframe>
+				</section>
+
+				<section>
+					<h2>Coordinates Conversion</h2>
+					<section>
+						<h2 style="top:170px;">2D > 3D</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+function screenToWorld (screenPoint) {
+
+    var viewport = viewer.navigation.getScreenViewport()
+
+    var n = {
+        x: (screenPoint.x - viewport.left) / viewport.width,
+        y: (screenPoint.y - viewport.top) / viewport.height
+    }
+
+    var worldPoint = viewer.utilities.getHitPoint(n.x, n.y)
+
+    return worldPoint
+}
+						</code></pre>
+					</section>
+					<section>
+						<h2 style="top:170px;">3D > 2D</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+function worldToScreen(worldPoint) {
+
+  var p = new THREE.Vector4()
+
+  p.x = worldPoint.x
+  p.y = worldPoint.y
+  p.z = worldPoint.z
+  p.w = 1
+
+  var camera = viewer.navigation.getCamera()
+
+  p.applyMatrix4(camera.matrixWorldInverse)
+  p.applyMatrix4(camera.projectionMatrix)
+
+  var screenPoint = viewer.impl.viewportToClient(p.x, p.y)
+
+  //snap pixel centre
+  screenPoint.x = Math.floor(screenPoint.x) + 0.5
+  screenPoint.y = Math.floor(screenPoint.y) + 0.5
+
+  return screenPoint
+}
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<h2 style="top: 40px;">3D OVERLAYS</h2>
+					<img src="./img/simuhub.png" style="height: 600px;">
+				</section>
+
+				<section>
+					<iframe src="https://www.simulationhub.com/knowledge-base/simulation-gallery"
+							class="iframe-fullscreen">
+					</iframe>
+				</section>
+
+				<section>
+					<iframe src="./slides/particle.html" class="iframe-fullscreen">
+					</iframe>
+				</section>
+
+				<section>
+
+					<section>
+						<iframe src="https://pier9.autodesk.io" class="iframe-fullscreen">
+						</iframe>
+					</section>
+
+					<section>
+						<iframe src="./slides/csstv.html" class="iframe-fullscreen">
+						</iframe>
+					</section>
+
+				</section>
+
+				<section>
+					<h2 style="top: 250px;">Part III - CONNECTING EXTERNAL DATA SOURCES</h2>
+				</section>
+
+				<section>
+					<a href="http://mongo.autodesk.io" target="_blank">
+						<img src="./img/mongo.png"/>
+					</a>
+				</section>
+
+				<section>
+					<a href="http://prelude.dotdotty.com" target="_blank">
+						<img src="./img/prelude.png">
+					</a>
+				</section>
+
+				<section>
+					<h2>RESOURCES</h2>
+					<ul>
+						<li style="margin-bottom: 20px";>
+							<a href="https://github.com/leefsmp/forge-connected-data" target="_blank">
+								https://github.com/leefsmp/forge-connected-data
+							</a>
+						</li>
+						<li style="margin-bottom: 20px";>
+							<a href="https://github.com/Developer-Autodesk" target="_blank">
+								https://github.com/Developer-Autodesk
+							</a>
+						</li>
+						<li style="margin-bottom: 20px";>
+							<a href="https://github.com/Developer-Autodesk/library-javascript-viewer-extensions" target="_blank">
+								library-javascript-viewer-extensions
+							</a>
+						</li>
+						<li style="margin-bottom: 20px";>
+							<a href="https://github.com/Developer-Autodesk/view.and.data-nodejs-mongo.sample" target="_blank">
+								view.and.data-nodejs-mongo.sample
+							</a>
+						</li>
+						<li style="margin-bottom: 20px";>
+							<a href="https://d3js.org" target="_blank">
+								https://d3js.org
+							</a>
+						</li>
+						<li style="margin-bottom: 20px";>
+							<a href="https://github.com/Developer-Autodesk/LmvNavTest" target="_blank">
+								LmvNavTest
+							</a>
+						</li>
+						<li>
+							. . .
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>VISUAL REPORTS</h2>
+					<h2 style="top: 180px;font-size: 48px;">WITH CONNECTED DATA</h2>
+
+					<h2 style="top: 320px;font-size: 100px;">Q & A</h2>
+
+					<p style="bottom: -200px; position: relative;">
+						<small>
+							<a href="http://adndevblog.typepad.com/cloud_and_mobile/philippe-leefsma.html">
+								Philippe Leefsma
+							</a>
+							/
+							<a href="http://twitter.com/F3lipek">
+								@F3lipek
+							</a>
+							<br>
+							Forge Partner Development
+						</small>
+					</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="slides/lib/jquery.min.js"></script>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// disable all iframes
+			//$('.iframe-fullscreen').remove()
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+
+				margin: 0,
+
+				width: '100%',
+				height: '100%',
+
+				minScale: 1.0,
+				maxScale: 1.0,
+
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				//viewDistance: 2,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [ {
+					src: 'lib/js/classList.js', condition: function() {
+						return !document.body.classList;
+					}
+				}, {
+					src: 'plugin/markdown/marked.js', condition: function() {
+						return !!document.querySelector( '[data-markdown]' );
+					}
+				}, {
+					src: 'plugin/markdown/markdown.js', condition: function() {
+						return !!document.querySelector( '[data-markdown]' );
+					}
+				}, {
+					src: 'plugin/highlight/highlight.js', async: true, callback: function() {
+						hljs.initHighlightingOnLoad();
+					}
+				}, {
+					src: 'plugin/zoom-js/zoom.js', async: true
+				},	{
+					src: 'plugin/notes/notes.js', async: true
+				}]
+			});
+
+			function setTheme(name){
+
+				document.getElementById('theme').setAttribute(
+						'href','css/theme/' + name + '.css');
+
+				return false;
+			}
+
+		</script>
+
+	</body>
+</html>

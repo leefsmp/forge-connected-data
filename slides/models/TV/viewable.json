@@ -1,0 +1,69 @@
+{
+  "guid": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmctZ2FsbGVyeS1wZXJzaXN0ZW50LWJ1Y2tldC1wcm9kLzcwMGEtMDY1OS0zNDgxLWMzNjUuemlw",
+  "owner": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmctZ2FsbGVyeS1wZXJzaXN0ZW50LWJ1Y2tldC1wcm9kLzcwMGEtMDY1OS0zNDgxLWMzNjUuemlw",
+  "type": "design",
+  "hasThumbnail": "true",
+  "progress": "complete",
+  "startedAt": "Thu May 19 12:40:56 UTC 2016",
+  "status": "success",
+  "urn": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmctZ2FsbGVyeS1wZXJzaXN0ZW50LWJ1Y2tldC1wcm9kLzcwMGEtMDY1OS0zNDgxLWMzNjUuemlw",
+  "success": "100%",
+  "children": [
+    {
+      "guid": "aa85aad6-c480-4a35-9cbf-4cf5994a25ba",
+      "name": "sonydvd.obj",
+      "role": "viewable",
+      "version": "2.0",
+      "urn": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmctZ2FsbGVyeS1wZXJzaXN0ZW50LWJ1Y2tldC1wcm9kLzcwMGEtMDY1OS0zNDgxLWMzNjUuemlw",
+      "status": "success",
+      "assetCount": 43,
+      "type": "folder",
+      "progress": "complete",
+      "success": "100%",
+      "hasThumbnail": "true",
+      "children": [
+        {
+          "guid": "446f1efa-dff5-4f93-974a-4a9bfacdece5",
+          "type": "folder",
+          "name": "Scene",
+          "role": "viewable",
+          "status": "success",
+          "progress": "complete",
+          "success": "100%",
+          "hasThumbnail": "true",
+          "children": [
+            {
+              "guid": "f81f6fe5-3fdb-45a5-a3f7-59c9958698a5",
+              "type": "resource",
+              "urn": "urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmctZ2FsbGVyeS1wZXJzaXN0ZW50LWJ1Y2tldC1wcm9kLzcwMGEtMDY1OS0zNDgxLWMzNjUuemlw/output/properties.db",
+              "role": "Autodesk.CloudPlatform.PropertyDatabase",
+              "mime": "application/autodesk-db",
+              "size": 43008
+            },
+            {
+              "guid": "29339926-b3db-4589-82d0-63a6ae317c4a",
+              "type": "geometry",
+              "role": "3d",
+              "name": "3d Scene",
+              "status": "success",
+              "progress": "complete",
+              "size": 11540660,
+              "success": "100%",
+              "hasThumbnail": "true",
+              "children": [
+                {
+                  "guid": "4e731fc8-9148-471a-82cf-19da4f096dba",
+                  "type": "resource",
+                  "urn": "urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmctZ2FsbGVyeS1wZXJzaXN0ZW50LWJ1Y2tldC1wcm9kLzcwMGEtMDY1OS0zNDgxLWMzNjUuemlw/output/sonydvd.obj.svf",
+                  "role": "graphics",
+                  "mime": "application/autodesk-svf",
+                  "size": 11421296
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

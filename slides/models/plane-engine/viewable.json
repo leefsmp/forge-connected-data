@@ -1,0 +1,63 @@
+{
+  "guid": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2YzNmQtOTA5ZS1jNjIzLTMxOGEtZmUxNC5TVEVQ",
+  "type": "design",
+  "hasThumbnail": "true",
+  "progress": "complete",
+  "startedAt": "Thu Feb 12 20:23:04 UTC 2015",
+  "status": "success",
+  "success": "100%",
+  "urn": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2YzNmQtOTA5ZS1jNjIzLTMxOGEtZmUxNC5TVEVQ",
+  "children": [
+    {
+      "guid": "aa85aad6-c480-4a35-9cbf-4cf5994a25ba",
+      "type": "folder",
+      "hasThumbnail": "true",
+      "name": "f36d-909e-c623-318a-fe14.STEP",
+      "progress": "complete",
+      "role": "viewable",
+      "status": "success",
+      "success": "100%",
+      "version": "2.0",
+      "children": [
+        {
+          "guid": "f8a10676-ab18-42f3-b66b-23c1cf540afa",
+          "type": "folder",
+          "hasThumbnail": "true",
+          "name": "Scenes",
+          "progress": "complete",
+          "status": "success",
+          "success": "100%",
+          "children": [
+            {
+              "guid": "55fb33ef-2e1e-4023-ba30-71e23a8cf068",
+              "type": "geometry",
+              "hasThumbnail": "true",
+              "name": "Scene",
+              "progress": "complete",
+              "role": "3d",
+              "status": "success",
+              "children": [
+                {
+                  "guid": "4739c9d0-243f-4de8-803f-c3da0e786ded",
+                  "type": "resource",
+                  "hasThumbnail": "false",
+                  "mime": "application/autodesk-svf",
+                  "role": "graphics",
+                  "urn": "urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2YzNmQtOTA5ZS1jNjIzLTMxOGEtZmUxNC5TVEVQ/output/1/f36d-909e-c623-318a-fe14.svf"
+                }
+              ]
+            },
+            {
+              "guid": "b6deb9d8-e6ca-4c65-a3cf-05a20a1b8896",
+              "type": "resource",
+              "mime": "application/autodesk-db",
+              "role": "Autodesk.CloudPlatform.PropertyDatabase",
+              "status": "success",
+              "urn": "urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2YzNmQtOTA5ZS1jNjIzLTMxOGEtZmUxNC5TVEVQ/output/1/properties.db"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

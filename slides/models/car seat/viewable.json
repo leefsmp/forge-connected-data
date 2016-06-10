@@ -1,0 +1,97 @@
+{
+  "guid": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2FhN2QtOWNlZC1mZDg0LTNhZDQtMDdmYy5kd2Z4",
+  "type": "design",
+  "hasThumbnail": "true",
+  "progress": "complete",
+  "startedAt": "Wed Nov 19 01:37:07 UTC 2014",
+  "status": "success",
+  "success": "100%",
+  "urn": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2FhN2QtOWNlZC1mZDg0LTNhZDQtMDdmYy5kd2Z4",
+  "children": [
+    {
+      "guid": "aa85aad6-c480-4a35-9cbf-4cf5994a25ba",
+      "type": "folder",
+      "hasThumbnail": "true",
+      "name": "aa7d-9ced-fd84-3ad4-07fc.dwfx",
+      "progress": "complete",
+      "role": "viewable",
+      "status": "success",
+      "success": "100%",
+      "version": "2.0",
+      "children": [
+        {
+          "guid": "7E3B3502-7297-409E-9680-987F4A4E9CCC_Sheets",
+          "type": "folder",
+          "hasThumbnail": "true",
+          "name": "Sheets",
+          "progress": "complete",
+          "status": "success",
+          "success": "100%",
+          "children": [
+            {
+              "guid": "9bae8c32-1ab5-4f8f-4d26-b60b677fa5ce",
+              "type": "geometry",
+              "hasThumbnail": "true",
+              "name": "CarSeatFinal.iam",
+              "order": 0,
+              "progress": "complete",
+              "role": "3d",
+              "status": "success",
+              "viewableID": "9bae8c32-1ab5-4f8f-4d26-b60b677fa5ce",
+              "properties": {
+                "": {
+                  "Description": "SUPER CAR DRIVER SEAT 1000"
+                },
+                "hidden": {
+                  "_InitialURI": "presentation=65641013-7351-4c11-9680-8039b6f5cf25,76f6d548-62ab-4207-859d-a855028a765e",
+                  "_LabelIconResourceID": "JylIEj7fak6vJirR94fG3w"
+                }
+              },
+              "children": [
+                {
+                  "guid": "5040f2a4-631c-cd10-607b-e6dd49c1f7dc",
+                  "type": "resource",
+                  "hasThumbnail": "false",
+                  "mime": "application/autodesk-svf",
+                  "role": "graphics",
+                  "status": "success",
+                  "urn": "urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2FhN2QtOWNlZC1mZDg0LTNhZDQtMDdmYy5kd2Z4/output/9bae8c32-1ab5-4f8f-4d26-b60b677fa5ce/0.svf"
+                },
+                {
+                  "guid": "a4267f2e-d119-eef7-55c8-d58fb434f378",
+                  "type": "resource",
+                  "mime": "application/autodesk-db",
+                  "role": "Autodesk.CloudPlatform.PropertyDatabase",
+                  "status": "success",
+                  "urn": "urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2FhN2QtOWNlZC1mZDg0LTNhZDQtMDdmYy5kd2Z4/output/9bae8c32-1ab5-4f8f-4d26-b60b677fa5ce/section_properties.db"
+                },
+                {
+                  "guid": "6d1feb5c-0b90-435b-b967-6c2447e0c4b2",
+                  "type": "view",
+                  "camera": [
+                    228.378601,
+                    210.952301,
+                    50.027351,
+                    15.216,
+                    -2.210305,
+                    50.027351,
+                    0,
+                    0,
+                    1,
+                    0.004906,
+                    0.652039,
+                    203.835495,
+                    1
+                  ],
+                  "hasThumbnail": "false",
+                  "name": "Home View",
+                  "role": "3d"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

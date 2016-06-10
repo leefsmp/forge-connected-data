@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link type="text/css" rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css"/>
+  <link type="text/css" rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"/>
+  <link type="text/css" rel="stylesheet" href="lib/lmv/style.css"/>
+
+</head>
+
+<body>
+
+  <div id="viewerContainer">
+  </div>
+
+  <script src="lib/polyfill.min.js"></script>
+  <script src="lib/jquery.min.js"></script>
+  <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="lib/async.min.js"></script>
+  <script src="lib/lmv/three.min.js"></script>
+  <script src="lib/lmv/viewer3D.min.js"></script>
+  <script src="extensions/Viewing.Extension.CSSTV.min.js"></script>
+
+<script>
+
+  var events = [
+    Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+    Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT
+  ];
+
+  function afterViewerEvents(viewer, events, onAfter) {
+
+    async.each(events,
+        function (event, callback) {
+
+          var handler = function(ev){
+
+            viewer.removeEventListener(
+                    event, handler);
+
+            callback();
+          };
+
+          viewer.addEventListener(
+                  event, handler);
+        },
+        function (err) {
+
+          onAfter();
+        });
+  }
+
+  var options = {
+    'document' : './models/TV/sonydvd.obj.svf',
+    'env':'Local'
+  };
+
+  var viewerContainer = document.getElementById('viewerContainer');
+
+  var viewer = new Autodesk.Viewing.Private.GuiViewer3D(viewerContainer, {});
+
+  Autodesk.Viewing.Initializer(options,function() {
+
+    viewer.initialize();
+
+    afterViewerEvents(viewer, events, function(){
+      viewer.loadExtension('_Viewing.Extension.CSSTV');
+    });
+
+    viewer.load(options.document);
+  });
+
+</script>
+
+</body>
+</html>

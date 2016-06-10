@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+  <meta name="viewport" content="width=device-width, height=device-height, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta charset="UTF-8">
+
+  <title>Snap SVG Arc Path Demo</title>
+
+  <script src="lib/snap.svg-min.js"></script>
+  <style>
+    @import url(http://fonts.googleapis.com/css?family=Share+Tech);
+    body {
+      background: #efefef;
+    }
+    .container.svg {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      font-family: 'Share Tech', sans-serif;
+      color: #444;
+    }
+    #percent{
+      width: 200px;
+      height: 200px;
+      top: 0;
+      left: 0;
+    }
+    #svg1, #svg2 {
+      width: 200px;
+      height: 200px;
+      top: 0;
+      left: 0;
+    }
+    #percent {
+      line-height: 20px;
+      height: 20px;
+      width: 100%;
+      top: 112px;
+      font-size: 43px;
+      text-align: center;
+      color: #3da08d;
+      opacity: 0.8;
+      position: relative;
+    }
+    p, .btn {
+      display: block;
+      text-transform: uppercase;
+      font-size: 24px;
+      top: 30px;
+    }
+    .btn {
+      text-align: center;
+      background: #5fc2af;
+      color: #fff;
+      width: 120px;
+      height: 37px;
+      line-height: 37px;
+      cursor: pointer;
+    }
+    input.percent {
+      border: 0;
+      outline: 0;
+      border-bottom: 1px solid #eee;
+      width: 35px;
+      font-family: helvetica;
+      font-size: 24px;
+      text-transform: capitalise;
+      font-family: 'Share Tech', sans-serif;
+      background: transparent;
+    }
+    .controls1 {
+      margin-left: 45px;
+    }
+    input.clr {
+      width: 170px;
+    }
+    .demo1{
+      position: fixed;
+    }
+    .demo1-svg{
+      position: relative;
+      top: 26px;
+    }
+    .demo2{
+      position: fixed;
+      top: -10px;
+      left: 280px;
+    }
+
+  </style>
+
+</head>
+<body>
+
+<div class="container svg">
+
+  <div class="demo1">
+    <div class="controls1">
+      <p>
+        <label>Percent:</label>
+        <input class="percent" maxlength="2" type="text" id="input" value="65"/>
+      </p>
+      <a class="btn" id="run">Run</a>
+    </div>
+    <div class="demo1-svg">
+      <div id="percent"></div>
+      <svg id="svg1"></svg>
+    </div>
+  </div>
+
+  <div class="demo2">
+    <div class="controls2">
+      <p>
+        <label>R:</label>
+        <input class="clr" type="range" id="inputR" value="200" min="1" max="255" step="1" onchange="drawColorChart()"/>
+      </p>
+      <p>
+        <label>G:</label>
+        <input class="clr" type="range" id="inputG" value="200" min="1" max="255" step="1" onchange="drawColorChart()"/>
+      </p>
+      <p>
+        <label>B:</label>
+        <input class="clr" type="range" id="inputB" value="200" min="1" max="255" step="1" onchange="drawColorChart()"/>
+      </p>
+    </div>
+    <svg id="svg2"></svg>
+  </div>
+
+</div>
+
+<script>
+  //Original version
+  //http://codepen.io/rachsmith/pen/BqpCd
+  var runBtn = document.getElementById('run'),
+          percDiv = document.getElementById('percent'),
+          input = document.getElementById('input');
+  input.onkeyup = function(evt) {
+    if(isNaN(input.value)) {
+      input.value = '';
+    }
+  };
+  runBtn.onclick = function() {
+    run(input.value/100);
+  };
+  var sector = null;
+  var chart = null;
+  ///////////////////////////////////////////////////////////////////
+  // Draws the percent counter
+  //
+  ///////////////////////////////////////////////////////////////////
+  function run(percent) {
+    var snap = Snap('#svg1');
+    var attr = {
+      stroke: '#3da08d',
+      fill: '#3da08d',
+      fillOpacity: 0.5,
+      strokeWidth: 1
+    };
+    Snap.animate(0, percent * 359.99, function (deg) {
+      if(sector) sector.remove();
+      sector = drawPieSector(snap,
+              {x:100, y:100},
+              50, 95,
+              0, deg,
+              attr);
+      percDiv.innerHTML = Math.round(deg/360 * 100) +'%';
+    }, 1000, mina.easeinout);
+  }
+  ///////////////////////////////////////////////////////////////////
+  // Draws the color chart
+  //
+  ///////////////////////////////////////////////////////////////////
+  function drawColorChart() {
+    var r = parseInt(document.getElementById('inputR').value);
+    var g = parseInt(document.getElementById('inputG').value);
+    var b = parseInt(document.getElementById('inputB').value);
+    var data = {
+      Red: {
+        value: r,
+        attr: {
+          stroke: 'rgb(' + r + ', 0, 0)',
+          fill: 'rgb(' + r + ', 0, 0)',
+          fillOpacity: 0.5,
+          strokeWidth: 1
+        }
+      },
+      Green: {
+        value: g,
+        attr: {
+          stroke: 'rgb(0, ' + g + ', 0)',
+          fill: 'rgb(0, ' + g + ', 0)',
+          fillOpacity: 0.5,
+          strokeWidth: 1
+        }
+      },
+      Blue: {
+        value: b,
+        attr: {
+          stroke: 'rgb(0, 0, ' + b + ')',
+          fill: 'rgb(0, 0, ' + b + ')',
+          fillOpacity: 0.5,
+          strokeWidth: 1
+        }
+      }
+    }
+    var snap = Snap('#svg2');
+    if(chart) chart.remove();
+    var pie = drawPie(snap,
+            {x:100, y:100},
+            50, 95, data);
+    var circle = snap.circle(100, 100, 50);
+    circle.attr({
+      stroke: 'rgb(' + r + ',' + g + ', ' + b + ')',
+      fill: 'rgb(' + r + ',' + g + ', ' + b + ')',
+      fillOpacity: 1,
+      strokeWidth: 1
+    });
+    chart = snap.group(pie, circle);
+  }
+  ///////////////////////////////////////////////////////////////////
+  // Draws a pie sector
+  //
+  ///////////////////////////////////////////////////////////////////
+  function drawPieSector(snap, centre,
+                         rIn, rOut, startDeg, delta, attr) {
+    var startOut = {
+      x: centre.x + rOut * Math.cos(Math.PI*(startDeg)/180),
+      y: centre.y + rOut * Math.sin(Math.PI*(startDeg)/180)
+    };
+    var endOut = {
+      x: centre.x + rOut * Math.cos(Math.PI*(startDeg + delta)/180),
+      y: centre.y + rOut * Math.sin(Math.PI*(startDeg + delta)/180)
+    };
+    var startIn = {
+      x: centre.x + rIn * Math.cos(Math.PI*(startDeg + delta)/180),
+      y: centre.y + rIn * Math.sin(Math.PI*(startDeg + delta)/180)
+    };
+    var endIn = {
+      x: centre.x + rIn * Math.cos(Math.PI*(startDeg)/180),
+      y: centre.y + rIn * Math.sin(Math.PI*(startDeg)/180)
+    };
+    var largeArc = delta > 180 ? 1 : 0;
+    var path = "M" + startOut.x + "," + startOut.y +
+            " A" + rOut + "," + rOut + " 0 " +
+            largeArc + ",1 " + endOut.x + "," + endOut.y +
+            " L" + startIn.x + "," + startIn.y +
+            " A" + rIn + "," + rIn + " 0 " +
+            largeArc + ",0 " + endIn.x + "," + endIn.y +
+            " L" + startOut.x + "," + startOut.y + " Z";
+    var path = snap.path(path);
+    path.attr(attr);
+    return path;
+  }
+  ///////////////////////////////////////////////////////////////////
+  // Draws a pie chart
+  //
+  ///////////////////////////////////////////////////////////////////
+  function drawPie(snap, centre, rIn, rOut, data) {
+    var total = 0;
+    for(var key in data){
+      total += data[key].value;
+    }
+    var startDeg = 0;
+    var pie = snap.group();
+    for(var key in data){
+      var delta = 359.99 * data[key].value / total;
+      var sector = drawPieSector(snap, centre,
+              rIn, rOut, startDeg, delta, data[key].attr);
+      pie.add(sector);
+      startDeg += delta;
+    }
+    return pie;
+  }
+  run(input.value/100);
+  drawColorChart();
+</script>
+
+
+</body>
+
+</html>
