@@ -151,7 +151,7 @@ function load (urn) {
 
     var viewerContainer = document.getElementById('viewer')
 
-    var viewer = Autodesk.Viewing.Viewer3D(viewerContainer)
+    var viewer = new Autodesk.Viewing.Viewer3D(viewerContainer)
 
     viewer.loadModel(getViewablePath(svf))
 
@@ -342,7 +342,7 @@ class CustomPropertyPanel extends Autodesk.Viewing.UI.ViewerPropertyPanel {
 
     properties.push({ ... custom property ... })
 
-	super.setProperties(properties)
+    super.setProperties(properties)
   }
 }
 						</code></pre>
@@ -365,7 +365,7 @@ var model = viewer.model
 //create custom material
 var material = new THREE.MeshPhongMaterial({
     color: '#F43BC1'
-	//... other properties
+    //... other properties
 })
 
 //set material on specific fragId
@@ -615,7 +615,7 @@ function getItem(id, onSuccess, onError) {
 
     response.json(function (item) {
 
- 	  onSuccess(item)
+      onSuccess(item)
     })
 
   }, function (error) {
