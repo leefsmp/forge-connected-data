@@ -94,9 +94,10 @@
 
 					<p style="bottom: 0px; position: relative;">
 						<small>
-							<a href="http://adndevblog.typepad.com/cloud_and_mobile/philippe-leefsma.html">
+							<a href="http://http://twitter.com/F3lipek">
 								Philippe Leefsma
 							</a>
+							/
 							<a href="http://twitter.com/F3lipek">
 								@F3lipek
 							</a>
@@ -111,7 +112,7 @@
 					<ol style="width: 500px;">
 						<li class="fragment"
 							style="margin-bottom: 60px";>
-							<b>Accessing your Design Data</b>
+							<b>Accessing Design Data</b>
 						</li>
 						<li class="fragment"
 							style="margin-bottom: 60px";>
@@ -129,8 +130,42 @@
 				</section>
 
 				<section>
-					<iframe src="./slides/structure-props.html" class="iframe-fullscreen">
-					</iframe>
+					<section>
+						<iframe src="./slides/structure-props.html" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<img src="./img/big-picture.png">
+					</section>
+					<section>
+						<h2>Accessing the API</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+html:
+<div id='viewer'> </div>
+
+js:
+function load (urn) {
+
+  initializationStuff(urn, ..., function(svf) {
+
+    var viewerContainer = document.getElementById('viewer')
+
+    var viewer = Autodesk.Viewing.Viewer3D(viewerContainer)
+
+    viewer.loadModel(getViewablePath(svf))
+
+    // call API's
+
+    viewer.setBackgroundColor( ... )
+
+    viewer.loadExtension('VisualReport')
+
+    // ...
+  })
+}
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
@@ -153,18 +188,21 @@
 						<h2>MODEL STRUCTURE (1)</h2>
 						<pre><code class="hljs" data-trim contenteditable>
 
-var instanceTree = model.getData().instanceTree
+function buildModelTree (model) {
 
-var rootId = instanceTree.getRootId()
+  var instanceTree = model.getData().instanceTree
 
-var rootNode = {
+  var rootId = instanceTree.getRootId()
+
+  var rootNode = {
     dbId: rootId,
     name: instanceTree.getNodeName(rootId)
+  }
+
+  buildModelTreeRec(rootNode)
+
+  return rootNode
 }
-
-buildModelTreeRec(rootNode)
-
-return rootNode
 
 						</code></pre>
 					</section>
@@ -175,7 +213,7 @@ return rootNode
 
 function buildModelTreeRec (node) {
 
-    instanceTree.enumNodeChildren(node.dbId, function(childId) {
+    instanceTree.enumNodeChildren (node.dbId, function (childId) {
 
         node.children = node.children || []
 
@@ -205,6 +243,37 @@ instanceTree.enumNodeFragments(dbId, function (fragId) {
 
     fragIds.push(fragId)
 })
+
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>MODEL STRUCTURE (3)</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+function buildModelTreeRec (node) {
+
+  node.fragIds = []
+
+  instanceTree.enumNodeFragments(dbId, function (fragId) {
+
+    node.fragIds.push(fragId)
+  })
+
+  instanceTree.enumNodeChildren (node.dbId, function (childId) {
+
+    node.children = node.children || []
+
+    var childNode = {
+      dbId: childId,
+      name: instanceTree.getNodeName(childId)
+    }
+
+    node.children.push(childNode)
+
+    buildModelTreeRec(childNode)
+  })
+}
 
 						</code></pre>
 					</section>
@@ -244,8 +313,9 @@ model.getProperties(dbId, function(result) {
 				</section>
 
 				<section>
-					<h2>Viewer Panel</h2>
-						<pre><code class="hljs" data-trim contenteditable>
+					<section>
+						<h2>Docking Panel</h2>
+							<pre><code class="hljs" data-trim contenteditable>
 class CustomPanel extends Autodesk.Viewing.UI.DockingPanel {
 
  constructor(container, title, options = {}) {
@@ -256,7 +326,27 @@ class CustomPanel extends Autodesk.Viewing.UI.DockingPanel {
  }
 
 }
+							</code></pre>
+					</section>
+					<section>
+						<h2>Property Panel</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+class CustomPropertyPanel extends Autodesk.Viewing.UI.ViewerPropertyPanel {
+
+  constructor(viewer) {
+
+    super(viewer)
+  }
+
+  setProperties (properties) {
+
+    properties.push({ ... custom property ... })
+
+	super.setProperties(properties)
+  }
+}
 						</code></pre>
+					</section>
 				</section>
 
 				<section>
@@ -336,11 +426,21 @@ viewer.impl.invalidate(true)
 
 				<section>
 					<h2>PLAYING WITH SVG</h2>
+
+					<section>
+						<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+							Scalable Vector Graphics (SVG) is an XML-based markup language for describing
+							two-dimensional vector graphics. SVG is essentially to graphics what HTML is to text.
+						</blockquote>
+						(source: Mozilla Developer Network)
+					</section>
+
 					<section>
 						<a href="http://snapsvg.io" target="_blank">
 							<img src="./img/snap.png" style="height: 400px;">
 						</a>
 					</section>
+
 					<section>
 						<iframe src="./slides/snap.html" style="width:500px;height:400px;">
 						</iframe>
@@ -407,14 +507,33 @@ function worldToScreen(worldPoint) {
 				</section>
 
 				<section>
-					<iframe src="https://www.simulationhub.com/knowledge-base/simulation-gallery"
-							class="iframe-fullscreen">
-					</iframe>
-				</section>
+					<section>
+						<iframe src="https://www.simulationhub.com/knowledge-base/simulation-gallery"
+								class="iframe-fullscreen">
+						</iframe>
+					</section>
 
-				<section>
-					<iframe src="./slides/particle.html" class="iframe-fullscreen">
-					</iframe>
+					<section>
+						<iframe src="./slides/particle.html" class="iframe-fullscreen">
+						</iframe>
+					</section>
+
+					<section>
+						<h2>Custom Meshes</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+var geometry = new THREE.SphereGeometry(size, 4, 4)
+
+var mesh = new THREE.Mesh(
+  geometry,
+  material)
+
+mesh.position.set(x, y, z)
+
+viewer.impl.scene.add(mesh)
+
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
@@ -429,6 +548,29 @@ function worldToScreen(worldPoint) {
 						</iframe>
 					</section>
 
+					<section>
+						<h2>CSS3DRenderer / CSS3DObject</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+var cssRenderer = new THREE.CSS3DRenderer()
+
+viewer.container.appendChild(
+  cssRenderer.domElement)
+
+var glScene = new THREE.Scene()
+
+var iFrame = document.createElement('iframe')
+
+var cssObj = new THREE.CSS3DObject(iFrame)
+
+cssObj.position.set(x, y, z)
+
+cssObj.scale.set(sx, sy, sz)
+
+glScene.add(cssObj)
+
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
@@ -439,6 +581,84 @@ function worldToScreen(worldPoint) {
 					<a href="http://mongo.autodesk.io" target="_blank">
 						<img src="./img/mongo.png"/>
 					</a>
+				</section>
+
+				<section>
+					<section>
+						<h2>REST / JSON</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+var router = express.Router()
+
+router.get('/items/:id', function (req, res) {
+
+  var item = getItemFromDatabase(id)
+
+  res.json(item)
+})
+
+var app = express()
+
+app.use('/api', router)
+
+app.listen(process.env.PORT)
+
+						</code></pre>
+					</section>
+					<section>
+						<h2>fetch vs XMLHttpRequest</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+function getItem(id, onSuccess, onError) {
+
+  fetch('/api/items/' + id).then(function (response) {
+
+    response.json(function (item) {
+
+ 	  onSuccess(item)
+    })
+
+  }, function (error) {
+
+    onError(error)
+  })
+}
+						</code></pre>
+					</section>
+					<section>
+						<h2>Promises + async / await</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+
+function getItem (id) {
+
+  return new Promise( async function (resolve, reject) {
+
+    try {
+
+      var response = await fetch('/api/items/' + id)
+
+      var item = await response.json()
+
+      return resolve(item)
+    }
+    catch(ex) {
+
+      return reject(ex)
+    }
+  })
+}
+
+function taskOnItems (itemIds) {
+
+  itemIds.forEach(async function (id) {
+
+    var item = await getItem(id)
+
+    console.log('Item: ' + item.name)
+  })
+}
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
@@ -494,7 +714,7 @@ function worldToScreen(worldPoint) {
 
 					<p style="bottom: -200px; position: relative;">
 						<small>
-							<a href="http://adndevblog.typepad.com/cloud_and_mobile/philippe-leefsma.html">
+							<a href="http://http://twitter.com/F3lipek">
 								Philippe Leefsma
 							</a>
 							/
@@ -537,7 +757,7 @@ function worldToScreen(worldPoint) {
 				history: true,
 				center: true,
 
-				//viewDistance: 2,
+				//viewDistance: 3,
 
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
