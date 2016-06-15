@@ -26,6 +26,7 @@
   <script src="lib/lmv/viewer3D.min.js"></script>
   <script src="extensions/Viewing.Extension.Transform.min.js"></script>
   <script src="extensions/Viewing.Extension.VisualReport.min.js"></script>
+  <script src="extensions/Autodesk.ADN.Viewing.Extension.MetaProperties.js"></script>
 
 <script>
 
@@ -69,9 +70,24 @@
 
     viewer.initialize();
 
+    var viewerToolbar = viewer.getToolbar(true)
+
+    var parentControl = new Autodesk.Viewing.UI.ControlGroup(
+        'report')
+
+    viewerToolbar.addControl(parentControl)
+
     afterViewerEvents(viewer, events, function(){
-      viewer.loadExtension('Viewing.Extension.VisualReport');
-      viewer.loadExtension('Viewing.Extension.Transform');
+
+      viewer.loadExtension('Viewing.Extension.Transform', {
+        parentControl: parentControl
+      });
+
+      viewer.loadExtension('Viewing.Extension.VisualReport', {
+        parentControl: parentControl
+      });
+
+      viewer.loadExtension('Autodesk.ADN.Viewing.Extension.MetaProperties')
     });
 
     viewer.load(options.document);

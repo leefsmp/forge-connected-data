@@ -72,6 +72,11 @@
 
     afterViewerEvents(viewer, events, function(){
       viewer.loadExtension('_Viewing.Extension.CSSTV');
+
+      viewer.setBackgroundColor(
+          //122, 198, 255,
+          0, 102, 204,
+          192, 192, 192)
     });
 
     viewer.load(options.document);
