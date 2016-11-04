@@ -280,7 +280,7 @@ Autodesk.ADN.Viewing.Extension.MetaProperties = function (viewer, options) {
 
         '<div id="' + id + '" class="propertyValue">' +
           '<a href="' + property.href +'">',
-            '<img src="' + property.href +'" width="128" height="128"> </img>' +
+            '<img src="' + property.href +'" width="56" height="56"> </img>' +
           '</a>',
         '</div>'
 

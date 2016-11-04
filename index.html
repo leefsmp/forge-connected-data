@@ -78,16 +78,30 @@
 					</ul>
 				</section>
 
+        <section style="padding:0;">
+          <img src="./img/AU.png" width="100%" style="max-width: 100%; max-height: 100%;"/>
+        </section>
+
+        <section>
+          <h2 style="top:40px;">Class Summary</h2>
+          <div style="width:80%;">
+            Viewing 3D models on a webpage or in a mobile App is great, but visualizing design data isn’t just about meshes and textures
+            <br/>
+            <br/>
+            In this class I will show you examples of how to use JavaScript to turn the Forge Viewer into a powerful visual reporting tool, giving you access to data associated with each model and connect your application to external databases & Web APIs to add rich visualization experience
+            <br/>
+            <br/>
+            Basic Web development experience is preferable - HTML5 JavaScript, CSS, Web  Services, REST API’s, …
+          </div>
+        </section>
+
 				<section>
 
-					<img src="./img/adsk.ico" width="100" height="100"
-						 style="position: absolute; left: 30%; top: 53px"/>
+					<!--<img src="./img/adsk.ico" width="100" height="100" style="position: absolute; left: 30%; top: 53px"/>-->
+					<!--<img src="./img/forge.png" width="100" height="100" style="position: absolute; right: 29%; top: 53px"/>-->
 
-					<img src="./img/forge.png" width="100" height="100"
-						 style="position: absolute; right: 29%; top: 53px"/>
-
-					<h2 style="top: 40px;">VISUAL REPORTS</h2>
-					<h2 style="top: 115px;font-size: 48px;">WITH CONNECTED DATA</h2>
+					<h2 style="top: 40px;">VISUAL REPORTING</h2>
+					<h2 style="top: 115px;font-size: 48px;">WITH CONNECTED DESIGN DATA</h2>
 
 					<iframe src="./slides/connected-data.html" style="width:800px;height:500px;">
 					</iframe>
@@ -107,12 +121,12 @@
 					</p>
 				</section>
 
-				<section>
+        <section>
 					<h2>AGENDA</h2>
 					<ol style="width: 500px;">
 						<li class="fragment"
 							style="margin-bottom: 60px";>
-							<b>Accessing Design Data</b>
+							<b>Accessing Forge Design Data</b>
 						</li>
 						<li class="fragment"
 							style="margin-bottom: 60px";>
@@ -120,13 +134,13 @@
 						</li>
 						<li class="fragment"
 							style="margin-bottom: 60px";>
-							<b>Connecting External Data Sources</b>
+							<b>Connecting Your App to the Cloud</b>
 						</li>
 					</ol>
 				</section>
 
 				<section>
-					<h2 style="top: 250px;">Part I - ACCESSING DESIGN DATA</h2>
+					<h2 style="top: 250px;">Part I - ACCESSING FORGE DESIGN DATA</h2>
 				</section>
 
 				<section>
@@ -134,8 +148,8 @@
 						<iframe src="./slides/structure-props.html" class="iframe-fullscreen">
 						</iframe>
 					</section>
-					<section>
-						<img src="./img/big-picture.png">
+					<section style="padding: 0;">
+						<img src="./img/big-picture.png" style="max-width: 95%; max-height: 95%;"/>
 					</section>
 					<section>
 						<h2>Accessing the API</h2>
@@ -280,7 +294,7 @@ function buildModelTreeRec (node) {
 
 					<section>
 						<h2>COMPONENT PROPERTIES</h2>
-					<pre><code class="hljs" data-trim contenteditable>
+					  <pre><code class="hljs" data-trim contenteditable>
 
 model.getProperties(dbId, function(result) {
 
@@ -292,9 +306,16 @@ model.getProperties(dbId, function(result) {
         })
     }
 }
-					</code></pre>
+					  </code></pre>
 					</section>
-				</section>
+
+          <section>
+            <h2>COMPONENT PROPERTIES - BULK QUERY</h2>
+            <pre><code class="hljs" data-trim contenteditable>
+
+            </code></pre>
+          </section>
+        </section>
 
 				<section>
 					<a href="http://calm-inlet-4387.herokuapp.com/" target="_blank">
@@ -340,7 +361,11 @@ class CustomPropertyPanel extends Autodesk.Viewing.UI.ViewerPropertyPanel {
 
   setProperties (properties) {
 
-    properties.push({ ... custom property ... })
+    properties.push({
+      category: 'Web Services'
+      displayName:  'Autodesk'
+      displayValue: 'Forge'
+    })
 
 	super.setProperties(properties)
   }
@@ -423,6 +448,16 @@ viewer.impl.invalidate(true)
 					</section>
 
 				</section>
+
+        <section>
+          <h2 style="top:30px;">Dotty Animation Manager</h2>
+          <a href="http://trial.dotdotty.com" target="_blank">
+            <h4 style="text-transform: none;">http://trial.dotdotty.com</h4>
+          </a>
+          <a href="http://trial.dotdotty.com/share/?shareId=6fb7-4d24-2ab5-4aaa-3181" target="_">
+            <img src="./img/dotty-anim-manager.png" style="height: 500px;">
+          </a>
+        </section>
 
 				<section>
 					<h2>PLAYING WITH SVG</h2>
@@ -534,6 +569,13 @@ viewer.impl.scene.add(mesh)
 
 						</code></pre>
 					</section>
+
+          <section>
+            <a href="./slides/particle-es6.html" target="_blank">
+              <img src="./slides/particle-es6.html" style="height: 400px;">
+            </a>
+          </section>
+
 				</section>
 
 				<section>
@@ -574,18 +616,12 @@ glScene.add(cssObj)
 				</section>
 
 				<section>
-					<h2 style="top: 250px;">Part III - CONNECTING EXTERNAL DATA SOURCES</h2>
-				</section>
-
-				<section>
-					<a href="http://mongo.autodesk.io" target="_blank">
-						<img src="./img/mongo.png"/>
-					</a>
+					<h2 style="top: 250px;">Part III - CONNECTING YOUR APP TO THE CLOUD</h2>
 				</section>
 
 				<section>
 					<section>
-						<h2>REST / JSON</h2>
+						<h2>REST / JSON API</h2>
 						<pre><code class="hljs" data-trim contenteditable>
 
 var router = express.Router()
@@ -605,6 +641,7 @@ app.listen(process.env.PORT)
 
 						</code></pre>
 					</section>
+
 					<section>
 						<h2>fetch vs XMLHttpRequest</h2>
 						<pre><code class="hljs" data-trim contenteditable>
@@ -625,51 +662,48 @@ function getItem(id, onSuccess, onError) {
 }
 						</code></pre>
 					</section>
+
 					<section>
 						<h2>Promises + async / await</h2>
 						<pre><code class="hljs" data-trim contenteditable>
 
-function getItem (id) {
+async function getItem (id) {
 
-  return new Promise( async function (resolve, reject) {
+  var response = await fetch('/api/items/' + id)
 
-    try {
+  var item = await response.json()
 
-      var response = await fetch('/api/items/' + id)
-
-      var item = await response.json()
-
-      return resolve(item)
-    }
-    catch(ex) {
-
-      return reject(ex)
-    }
-  })
+  return item
 }
 
-function taskOnItems (itemIds) {
+async function taskOnItems (itemIds) {
 
-  itemIds.forEach(async function (id) {
+  const itemTasks = itemIds.map((id) => {
 
-    var item = await getItem(id)
+    return getItem(id)
+  })
 
-    console.log('Item: ' + item.name)
+  const items = await Promise.all(itemTasks)
+
+  //All items have been retrieved
+  items.forEach((item) => {
+
+      console.log('Item: ' + item.name)
   })
 }
 						</code></pre>
 					</section>
 				</section>
 
-				<section>
-					<a href="http://iot.dotdotty.com" target="_blank">
-						<img src="./img/dotty.png">
-					</a>
-				</section>
+        <section>
+          <a href="https://forge-rcdb.autodesk.io/viewer?id=57efaead77c8eb0a560ef465" target="_blank">
+            <img src="./img/forge-rcdb.png"/>
+          </a>
+        </section>
 
 				<section>
-					<a href="http://trial.dotdotty.com/share/?shareId=6fb7-4d24-2ab5-4aaa-3181" target="_blank">
-						<img src="./img/dotty.png">
+					<a href="http://iot.dotdotty.com" target="_blank">
+						<img src="./img/iot-dotty.png">
 					</a>
 				</section>
 
@@ -692,20 +726,25 @@ function taskOnItems (itemIds) {
 							</a>
 						</li>
 						<li style="margin-bottom: 20px";>
-							<a href="https://github.com/Developer-Autodesk/view.and.data-nodejs-mongo.sample" target="_blank">
-								view.and.data-nodejs-mongo.sample
+							<a href="https://github.com/Autodesk-Forge" target="_blank">
+                https://github.com/Autodesk-Forge
 							</a>
 						</li>
 						<li style="margin-bottom: 20px";>
-							<a href="https://d3js.org" target="_blank">
-								https://d3js.org
+							<a href="https://developer.autodesk.com/" target="_blank">
+                https://developer.autodesk.com
 							</a>
 						</li>
-						<li style="margin-bottom: 20px";>
-							<a href="https://github.com/Developer-Autodesk/LmvNavTest" target="_blank">
-								LmvNavTest
-							</a>
-						</li>
+            <li style="margin-bottom: 20px";>
+              <a href="https://d3js.org" target="_blank">
+                https://d3js.org
+              </a>
+            </li>
+            <li style="margin-bottom: 20px";>
+              <a href="https://github.com/Autodesk-Forge/forge-rcdb.nodejs" target="_blank">
+                Forge-RCDB
+              </a>
+            </li>
 						<li>
 							. . .
 						</li>
@@ -713,25 +752,12 @@ function taskOnItems (itemIds) {
 				</section>
 
 				<section>
-					<h2>VISUAL REPORTS</h2>
-					<h2 style="top: 180px;font-size: 48px;">WITH CONNECTED DATA</h2>
-
-					<h2 style="top: 320px;font-size: 100px;">Q & A</h2>
-
-					<p style="bottom: -200px; position: relative;">
-						<small>
-							<a href="http://http://twitter.com/F3lipek">
-								Philippe Leefsma
-							</a>
-							/
-							<a href="http://twitter.com/F3lipek">
-								@F3lipek
-							</a>
-							<br>
-							Forge Partner Development
-						</small>
-					</p>
+					<img src="./img/how-did-i-do.png"/>
 				</section>
+
+        <section>
+          <img src="./img/more-questions.png"/>
+        </section>
 
 			</div>
 
@@ -744,7 +770,7 @@ function taskOnItems (itemIds) {
 		<script>
 
 			// disable all iframes
-			//$('.iframe-fullscreen').remove()
+			$('.iframe-fullscreen').remove()
 
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
