@@ -307,14 +307,21 @@ model.getProperties(dbId, function(result) {
     }
 }
 					  </code></pre>
-					</section>
 
-          <section>
-            <h2>COMPONENT PROPERTIES - BULK QUERY</h2>
             <pre><code class="hljs" data-trim contenteditable>
 
+model.getBulkProperties(dbIdArray, ['Material', 'Designer'], function(result) {
+
+    if (result.properties){
+
+        result.properties.forEach( function (prop) {
+
+            console.log(prop)
+        })
+    }
+}
             </code></pre>
-          </section>
+					</section>
         </section>
 
 				<section>
@@ -367,7 +374,7 @@ class CustomPropertyPanel extends Autodesk.Viewing.UI.ViewerPropertyPanel {
       displayValue: 'Forge'
     })
 
-	super.setProperties(properties)
+    super.setProperties(properties)
   }
 }
 						</code></pre>
@@ -384,20 +391,21 @@ class CustomPropertyPanel extends Autodesk.Viewing.UI.ViewerPropertyPanel {
 					<section>
 						<h2 style="top:170px;">Material</h2>
 							<pre><code class="hljs" data-trim contenteditable>
-//current model
+// current model
 var model = viewer.model
 
-//create custom material
+// create custom material
 var material = new THREE.MeshPhongMaterial({
     color: '#F43BC1'
-	//... other properties
+    // ... other properties
 })
 
-//set material on specific fragId
+// set material on specific fragId
 model.getFragmentList().setMaterial(
-    fragId, material)
+    fragId,
+    material)
 
-//force viewer to update scene
+// force viewer to update scene
 viewer.impl.invalidate(true)
 							</code></pre>
 					</section>
@@ -405,18 +413,18 @@ viewer.impl.invalidate(true)
 					<section>
 						<h2 style="top:170px;">Overlay</h2>
 						<pre><code class="hljs" data-trim contenteditable>
-//access render proxy
+// access render proxy
 var renderProxy = viewer.impl.getRenderProxy(
     model, fragId)
 
-//clone geometry
+// clone geometry
 var meshProxy = new THREE.Mesh(
     renderProxy.geometry)
 
 meshProxy.matrix.copy(
     renderProxy.matrixWorld)
 
-//create 3d overlay
+// create 3d overlay
 viewer.impl.addOverlay(
     materialName, meshProxy)
 
@@ -436,10 +444,10 @@ fragProxy.getAnimTransform()
 fragProxy.position = new THREE.Vector3(x, y, z)
 
 //Not a standard three.js quaternion
-fragProxy.quaternion._x = qx;
-fragProxy.quaternion._y = qy;
-fragProxy.quaternion._z = qz;
-fragProxy.quaternion._w = qw;
+fragProxy.quaternion._x = qx
+fragProxy.quaternion._y = qy
+fragProxy.quaternion._z = qz
+fragProxy.quaternion._w = qw
 
 fragProxy.updateAnimTransform()
 
@@ -572,7 +580,7 @@ viewer.impl.scene.add(mesh)
 
           <section>
             <a href="./slides/particle-es6.html" target="_blank">
-              <img src="./slides/particle-es6.html" style="height: 400px;">
+              <img src="./img/particles.png" style="height: 600px;">
             </a>
           </section>
 
@@ -581,8 +589,9 @@ viewer.impl.scene.add(mesh)
 				<section>
 
 					<section>
-						<iframe src="https://pier9.autodesk.io" class="iframe-fullscreen">
-						</iframe>
+            <a href="http://pier9.autodesk.io" target="_blank">
+              <img src="./img/pier9.png" style="height: 600px;">
+            </a>
 					</section>
 
 					<section>
@@ -685,7 +694,7 @@ async function taskOnItems (itemIds) {
 
   const items = await Promise.all(itemTasks)
 
-  //All items have been retrieved
+  // All items have been retrieved
   items.forEach((item) => {
 
       console.log('Item: ' + item.name)
